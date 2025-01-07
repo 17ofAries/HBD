@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .slider-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slider-track img {
+            width: 100%;
+            height: 100%; /* Make images fill the container */
+            object-fit: cover; /* Ensure images maintain aspect ratio and cover the container */
+            display: block;
+            flex-shrink: 0;
+        }
+
+        .slider-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .slider-controls button {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .slider-controls button:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="slider-container">
+        <div class="slider-track">
+            <img src="Frame 3.png" alt="Image 1">
+            <img src="Frame 4.png" alt="Image 2">
+            <img src="Frame 10.png" alt="Image 3">
+            <img src="Frame 11.png" alt="Image 4">
+            <img src="Frame 12.png" alt="Image 5">
+            <img src="Frame 13.png" alt="Image 6">
+            <img src="Frame 14.png" alt="Image 7">
+            <img src="Frame 15.png" alt="Image 8">
+        </div>
+        <div class="slider-controls">
+            <button id="prevBtn">&#10094;</button>
+            <button id="nextBtn">&#10095;</button>
+        </div>
+    </div>
+
+    <script>
+        const sliderTrack = document.querySelector('.slider-track');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        let index = 0;
+
+        function updateSlider() {
+            const slideWidth = sliderTrack.children[0].clientWidth;
+            sliderTrack.style.transform = `translateX(-${index * slideWidth}px)`;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (index > 0) {
+                index--;
+                updateSlider();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (index < sliderTrack.children.length - 1) {
+                index++;
+                updateSlider();
+            }
+        });
+
+        // Optional: Add swipe support for mobile devices
+        let startX = 0;
+
+        sliderTrack.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        sliderTrack.addEventListener('touchend', (e) => {
+            const endX = e.changedTouches[0].clientX;
+            if (startX - endX > 50) {
+                if (index < sliderTrack.children.length - 1) {
+                    index++;
+                }
+            } else if (endX - startX > 50) {
+                if (index > 0) {
+                    index--;
+                }
+            }
+            updateSlider();
+        });
+    </script>
+</body>
+</html>
